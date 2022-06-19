@@ -1,20 +1,19 @@
-package golang_test
+package base_redis_test
 
 import (
 	"fmt"
+	"github.com/charlie-bit/base-redis"
 	"testing"
-
-	"github.com/charlie-bit/base-redis/golang"
 )
 
 func TestStandAloneClient(t *testing.T) {
-	fmt.Println(golang.StandAloneClient())
+	fmt.Println(base_redis.StandAloneClient())
 }
 
 func TestClusterClient(t *testing.T) {
-	fmt.Println(golang.ClusterClient())
+	fmt.Println(base_redis.ClusterClient())
 }
 
 func TestSentinelClient(t *testing.T) {
-	fmt.Println(golang.SentinelClient())
+	fmt.Println(base_redis.SentinelClient())
 }

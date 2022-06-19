@@ -1,11 +1,11 @@
-package golang_test
+package base_redis_test
 
 import (
 	"fmt"
-	"github.com/charlie-bit/base-redis/golang"
+	"github.com/charlie-bit/base-redis"
 	"testing"
 )
 
 func TestSGet(t *testing.T) {
-	fmt.Println(golang.SGet())
+	fmt.Println(base_redis.SGet())
 }
