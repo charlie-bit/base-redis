@@ -1,5 +1,10 @@
 package golang
 
+import (
+	"context"
+	"github.com/go-redis/redis/v8"
+)
+
 /**
 set string
 */
@@ -9,8 +14,11 @@ func SGet() (string, error) {
 		return "", err
 	}
 
-	result, err := Client.Get("test").Result()
+	result, err := Client.Get(context.Background(), "test").Result()
 	if err != nil {
+		if err == redis.Nil {
+			return "", nil
+		}
 		return "", err
 	}
 

@@ -1,6 +1,9 @@
 package golang
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 // set string
 func SSet() (string, error) {
@@ -9,7 +12,7 @@ func SSet() (string, error) {
 		return "", err
 	}
 
-	result, err := Client.Set("test", "test", time.Minute*1).Result()
+	result, err := Client.Set(context.Background(), "test", "test", time.Minute*1).Result()
 	if err != nil {
 		return "", err
 	}

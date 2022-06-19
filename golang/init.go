@@ -1,9 +1,10 @@
 package golang
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 )
 
 /**
@@ -85,7 +86,7 @@ func StandAloneClient() error {
 		DB:       0,
 	})
 
-	ok, err := rdb.Ping().Result()
+	ok, err := rdb.Ping(context.Background()).Result()
 	if err != nil {
 		fmt.Printf("init redis failed, err: %s \n", err.Error())
 		return err
@@ -101,7 +102,7 @@ func ClusterClient() error {
 		Addrs: []string{":6379"},
 	})
 
-	_, err := cluster.Ping().Result()
+	_, err := cluster.Ping(context.Background()).Result()
 	if err != nil {
 		return err
 	}
@@ -115,7 +116,7 @@ func SentinelClient() error {
 		SentinelAddrs: []string{"127.0.0.1:6379"},
 	})
 
-	_, err := client.Ping().Result()
+	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
 		return err
 	}
