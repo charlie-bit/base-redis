@@ -2,6 +2,7 @@ package golang
 
 import (
 	"fmt"
+
 	"github.com/go-redis/redis"
 )
 
@@ -74,6 +75,9 @@ import (
 	// 只读设置，如果设置为true， redis只能查询缓存不能更新。
 	readOnly bool
 } */
+
+var Client *redis.Client
+
 func StandAloneClient() error {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "127.0.0.1:6379",
@@ -87,5 +91,34 @@ func StandAloneClient() error {
 		return err
 	}
 	fmt.Printf("redis ping result : %s \n", ok)
+
+	Client = rdb
+	return nil
+}
+
+func ClusterClient() error {
+	cluster := redis.NewClusterClient(&redis.ClusterOptions{
+		Addrs: []string{":6379"},
+	})
+
+	_, err := cluster.Ping().Result()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func SentinelClient() error {
+	client := redis.NewFailoverClient(&redis.FailoverOptions{
+		MasterName:    "master",
+		SentinelAddrs: []string{"127.0.0.1:6379"},
+	})
+
+	_, err := client.Ping().Result()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
